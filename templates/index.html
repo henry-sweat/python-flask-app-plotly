@@ -3,24 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>First Python Flask app with plotly dataviz</title>
-
+    <script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
     <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <h1>Press the button to get current time</h1>
+    <h1>Plotly Visualization</h1>
 
-    <button onclick="btnName()">Click here</button>
+    <div id='chart' class='chart'></div>
 
-    <p id="resBtnHere"></p>
-
-    <script>
-        var btnName = function() {
-            $.get('/press_button',
-                function (x) {
-                    $("#resBtnHere").html(x);
-                }
-            )
-        }
+    <script type='text/javascript'>
+        var graphs = {{graphJSON | safe}};
+        Plotly.newPlot('chart',graphs,{});
     </script>
 </body>
 </html>

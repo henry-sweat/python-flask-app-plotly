@@ -1,17 +1,25 @@
 from flask import Flask, render_template
-import datetime
+import pandas as pd
+import json
+import plotly
+import plotly.express as px
 
 app = Flask(__name__)
 
 @app.route('/')
-def home():
-    return render_template('index.html')
+def notdash():
+   df = pd.DataFrame({
+      'Fruit': ['Apples', 'Oranges', 'Bananas', 'Apples', 'Oranges', 'Bananas'],
+      'Amount': [4, 1, 2, 2, 4, 5],
+      'City': ['SF', 'SF', 'SF', 'Montreal', 'Montreal', 'Montreal']
+   })
 
-@app.route('/press_button')
-def do_something():
-    dt = datetime.datetime.now()
-    res = '{:%Y-%m-%d %H-%M-%S}'.format(dt)
-    return res
+   fig = px.bar(df, x='Fruit', y='Amount', color='City',
+                 barmode='group')
+
+   graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+   return render_template('index.html', graphJSON=graphJSON)
 
 if __name__ == '__main__':
     app.run()
